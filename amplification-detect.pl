@@ -3,7 +3,7 @@
 # Detect hosts vulnerable to DDoS amplification attacks.
 # Prerequisites: apt install nmap libnmap-parser-perl
 # Usage: amplification-detect.pl <ip/mask> <ip/mask> ...
-# (c) Alexander Kulak <sa-dev@odd.systems> 2020
+# (c) <sa-dev@odd.systems> 2020
 #
 
 use strict;
