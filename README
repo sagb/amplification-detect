@@ -1,0 +1,9 @@
+
+Detect hosts vulnerable to UDP amplification attacks.
+May be useful to scan datacenter infrastructure for potential DDoS sources.
+
+Prerequisites: apt install nmap libnmap-parser-perl
+Usage: amplification-detect.pl <ip/mask> <ip/mask> ...
+
+(c) Alexander Kulak <sa-dev@odd.systems> 2020
+
