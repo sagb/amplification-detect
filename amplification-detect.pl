@@ -28,17 +28,8 @@ IP: for $ip ($np->get_ips("up")){
     $host = $np->get_host($ip);
     @open_ports = $host->udp_open_ports();
     if (scalar(@open_ports) < 1) { next IP }
-    if (-x $client_by_ip) {
-        @c_arg = ($client_by_ip, $ip);
-        open (CBI, "-|", @c_arg);
-        $c = <CBI>;
-        if (defined $c) { chomp ($c); }
-        close CBI;
-    }
-    if ((not defined ($c)) or $c eq "") {
-        $c = "undefined client";
-    }
     $udp_ports = $host->{ports}->{udp};
+    $c = undef;
     for $port (@open_ports) {
         $vuln = undef;
         #if ($port == 17) {
@@ -96,8 +87,23 @@ IP: for $ip ($np->get_ips("up")){
                 $vuln = "memcached";
             }
         }
-        if (defined $vuln and not ($vuln ~~ @{$h{$c}->{$ip}})) {
-            push @{$h{$c}->{$ip}}, $vuln;
+        if (defined $vuln) {
+            # client: lazy initialization
+            unless (defined $c) {
+                if (-x $client_by_ip) {
+                    @c_arg = ($client_by_ip, $ip);
+                    open (CBI, "-|", @c_arg);
+                    $c = <CBI>;
+                    if (defined $c) { chomp ($c); }
+                    close CBI;
+                }
+                if ((not defined ($c)) or $c eq "") {
+                    $c = "undefined client";
+                }
+            } # got c
+            unless ($vuln ~~ @{$h{$c}->{$ip}}) {
+                push @{$h{$c}->{$ip}}, $vuln;
+            }
         }
     }
 }
