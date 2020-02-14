@@ -5,5 +5,10 @@ May be useful to scan datacenter infrastructure for potential DDoS sources.
 Prerequisites: apt install nmap libnmap-parser-perl
 Usage: amplification-detect.pl <ip/mask> <ip/mask> ...
 
+If executable client_by_ip present in current directory, it is used
+to determine description of IP address:
+./client_by_ip <ip address>
+It should output single line or nothing.
+
 (c) <sa-dev@odd.systems> 2020
 
